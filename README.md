@@ -1,4 +1,4 @@
-# The Theory of Nothing
+# The E8 Theory of Nothing
 
 ### Zero free parameters. Everything from geometry.
 
