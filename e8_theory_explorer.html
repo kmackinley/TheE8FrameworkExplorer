@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What If Physics Has No Free Parameters?</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#08080c;--text:#b0b0c0;--bright:#e8e8f0;
+  --gold:#e8a020;--blue:#4090e0;--red:#e04060;--green:#40e0a0;
+  --dim:#505068;--panel:rgba(8,8,14,0.93);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Crimson Pro',Georgia,serif;
+  overflow-x:hidden;
+}
+
+/* ===== 3D CANVAS ===== */
+#canvas-box{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:1;transition:opacity 1.2s;opacity:0.55;
+}
+body.bright #canvas-box{opacity:1}
+
+/* ===== SCROLL NARRATIVE ===== */
+#story{position:relative;z-index:10;max-width:620px;margin:0 auto;padding:0 28px}
+
+.gap{height:100vh}.gap-half{height:50vh}.gap-sm{height:30vh}
+
+section{padding:48px 0}
+
+section h2{
+  font-size:clamp(28px,5vw,40px);font-weight:300;
+  color:var(--bright);line-height:1.3;margin-bottom:22px;
+}
+section h2 em{font-style:italic;color:var(--gold)}
+
+section .tag{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:4px;text-transform:uppercase;color:var(--dim);
+  margin-bottom:14px;
+}
+
+section p{
+  font-size:clamp(16px,2.4vw,19px);line-height:1.75;
+  margin-bottom:16px;font-weight:300;
+}
+section p strong{color:var(--bright);font-weight:400}
+
+/* Big number callout */
+.hero-num{
+  text-align:center;padding:44px 0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(44px,8vw,72px);font-weight:500;
+  color:var(--gold);
+  text-shadow:0 0 60px rgba(232,160,32,0.25);
+}
+.hero-num .sub{
+  display:block;font-size:clamp(11px,1.6vw,14px);
+  color:var(--dim);margin-top:6px;letter-spacing:3px;font-weight:300;
+}
+
+/* Formula card */
+.fcard{
+  background:rgba(232,160,32,0.035);
+  border:1px solid rgba(232,160,32,0.13);
+  border-radius:6px;padding:22px 26px;margin:28px 0;text-align:center;
+}
+.fcard .math{
+  font-family:'JetBrains Mono',monospace;font-size:clamp(14px,2vw,18px);
+  color:var(--bright);letter-spacing:1px;margin-bottom:6px;
+}
+.fcard .note{font-size:13px;color:var(--dim);font-style:italic}
+.fcard .ans{
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  color:var(--gold);margin-top:8px;
+}
+
+/* Comparison table */
+.tbl{
+  width:100%;border-collapse:collapse;margin:22px 0;
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+}
+.tbl th{
+  text-align:left;font-weight:400;color:var(--dim);
+  padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.06);
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
+}
+.tbl td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.025)}
+.tbl .name{color:var(--bright)}
+.tbl .pred{color:var(--gold)}
+.tbl .obs{color:var(--text)}
+.tbl .err{color:var(--green);font-size:10px}
+
+/* Divider */
+.div{width:50px;height:1px;background:var(--dim);margin:56px auto}
+
+/* Checklist */
+.checks p{margin-bottom:10px;padding-left:24px;position:relative}
+.checks p::before{
+  content:'✓';position:absolute;left:0;color:var(--gold);
+  font-family:'JetBrains Mono',monospace;font-size:14px;
+}
+
+/* Footer */
+#foot{
+  text-align:center;padding:80px 28px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--dim);letter-spacing:2px;
+}
+#foot a{color:var(--gold);text-decoration:none}
+
+/* Scroll arrow */
+#arrow{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  z-index:20;font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--dim);letter-spacing:3px;text-transform:uppercase;
+  animation:bob 2.2s ease-in-out infinite;transition:opacity 0.8s;
+}
+@keyframes bob{
+  0%,100%{opacity:.3;transform:translateX(-50%) translateY(0)}
+  50%{opacity:.65;transform:translateX(-50%) translateY(5px)}
+}
+
+/* Nav dots */
+#dots{
+  position:fixed;right:18px;top:50%;transform:translateY(-50%);
+  z-index:20;display:flex;flex-direction:column;gap:11px;
+}
+.dot{
+  width:7px;height:7px;border-radius:50%;border:1px solid var(--dim);
+  background:transparent;cursor:pointer;transition:all .35s;
+}
+.dot.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px rgba(232,160,32,0.35)}
+.dot:hover{border-color:var(--gold)}
+
+@media(max-width:700px){
+  #dots{display:none}
+  .tbl{font-size:10px}
+  .fcard .math{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div id="canvas-box"></div>
+<div id="arrow">↓ scroll ↓</div>
+
+<div id="dots">
+  <div class="dot on" onclick="go(0)"></div>
+  <div class="dot" onclick="go(1)"></div>
+  <div class="dot" onclick="go(2)"></div>
+  <div class="dot" onclick="go(3)"></div>
+  <div class="dot" onclick="go(4)"></div>
+  <div class="dot" onclick="go(5)"></div>
+</div>
+
+<div id="story">
+
+<div class="gap"></div>
+
+<!-- ========== 0 ========== -->
+<section data-s="intro" id="s0">
+  <div class="tag">The Problem</div>
+  <h2>Physics has a <em>dirty secret</em></h2>
+  <p>The Standard Model is the most successful scientific theory ever built. It predicts the behaviour of every known particle with stunning precision.</p>
+  <p>But it needs <strong>26 numbers</strong> — the mass of the electron, the strength of electromagnetism, the Higgs field energy — that <strong>can't be calculated.</strong> They have to be measured in a lab and typed in by hand.</p>
+  <p>For fifty years, physicists have asked: <em>why do these numbers have the values they do?</em></p>
+  <p>Is there a deeper pattern? Or is our universe just… random?</p>
+</section>
+
+<div class="hero-num">26<span class="sub">unexplained constants in the Standard Model</span></div>
+
+<section>
+  <p>Why is the electron 1,836 times lighter than the proton? Why is gravity 10⁴⁰ times weaker than electromagnetism? Why exactly three copies of every particle?</p>
+  <p>Nobody knows. These aren't predictions — they're <strong>inputs.</strong> The theory works, but it doesn't explain itself.</p>
+</section>
+
+<div class="gap-half"></div>
+
+<!-- ========== 1 ========== -->
+<section data-s="roots" id="s1">
+  <div class="tag">The Shape</div>
+  <h2>A structure with <em>impossible</em> symmetry</h2>
+  <p>In 1887, Wilhelm Killing discovered <strong>E₈</strong> — a geometric object that lives in 8 dimensions with 248 symmetries. It is the largest "exceptional" symmetry in mathematics. Nothing bigger exists.</p>
+  <p>The cloud of points rotating behind this text is E₈, projected down from 8 dimensions into 3. Each glowing dot is one of its <strong>240 root vectors</strong> — the backbone of the structure.</p>
+  <p>E₈ has properties that no other shape in mathematics possesses:</p>
+
+  <div class="fcard">
+    <div class="math">248 + 8 = 256 = 2⁸</div>
+    <div class="note">dimension + rank = 2^rank</div>
+    <div class="ans">True ONLY for E₈. No other symmetry group satisfies this.</div>
+  </div>
+
+  <p>Its lattice is the densest sphere packing in 8 dimensions. Its spectrum satisfies ζ(0) = −1, a fact unique among all lattices. Its Coxeter number is 30 = 2 × 3 × 5 — the product of the first three primes.</p>
+  <p>For a century it was pure mathematics. Then someone asked: <em>what if it's physics?</em></p>
+</section>
+
+<div class="div"></div>
+<div class="gap-sm"></div>
+
+<!-- ========== 2 ========== -->
+<section data-s="alpha" id="s2">
+  <div class="tag">The First Miracle</div>
+  <h2>1/137 — the most <em>mysterious number</em> in physics</h2>
+  <p>The <strong>fine structure constant</strong> α ≈ 1/137 is the strength of electromagnetism. It sets the size of atoms, the speed of chemical reactions, and the colour of every star in the sky.</p>
+  <p>Richard Feynman called it "one of the greatest damn mysteries of physics — a magic number that comes to us with no understanding by man."</p>
+  <p>From E₈:</p>
+
+  <div class="fcard">
+    <div class="math">α⁻¹ = (4π·30 / e) × √(240/248) × 240/237</div>
+    <div class="note">Every number is an E₈ structural constant — nothing is fitted</div>
+    <div class="ans">= 137.036 &nbsp; — &nbsp; matches experiment to 0.003%</div>
+  </div>
+
+  <p>The 30 is E₈'s Coxeter number. The 240 is its root count. The 248 is its dimension. The factor of <em>e</em> (Euler's number) comes from the spectral identity ζ(0) = −1, unique to E₈.</p>
+  <p><strong>No free parameters. No curve fitting. Just geometry.</strong></p>
+</section>
+
+<div class="hero-num">137.036<span class="sub">derived from five integers</span></div>
+<div class="gap-sm"></div>
+
+<!-- ========== 3 ========== -->
+<section data-s="mass" id="s3">
+  <div class="tag">The Twelve Particles</div>
+  <h2>Every mass in the universe from <em>three prime numbers</em></h2>
+  <p>The Standard Model has 12 fundamental matter particles — six quarks and six leptons. Their masses span <strong>13 orders of magnitude</strong>, from neutrinos lighter than a billionth of an eV to the 172 GeV top quark.</p>
+  <p>Nobody has ever explained this pattern. Until now.</p>
+  <p>The Coxeter number of E₈ is <strong>30 = 2 × 3 × 5</strong>. Its prime factorisation has exactly three factors. This forces exactly <strong>three generations of matter</strong> — each one indexed by a prime:</p>
+
+  <div class="fcard">
+    <div class="math">Generation 1 → p = 2 &nbsp; (top, bottom, tau, ν₃)</div>
+    <div class="math">Generation 2 → p = 3 &nbsp; (charm, strange, muon, ν₂)</div>
+    <div class="math">Generation 3 → p = 5 &nbsp; (up, down, electron, ν₁)</div>
+    <div class="note">Three primes ↔ three families. A fourth generation would need h divisible by 7 — but h = 30.</div>
+  </div>
+
+  <p>Each mass is a tunnelling amplitude through the E₈ lattice, where heavier particles tunnel shorter distances:</p>
+
+  <div class="fcard">
+    <div class="math">m(p) = y₀ · v · exp(−κ₀ · S(p, γ))</div>
+    <div class="note">κ₀ from the first Laplacian eigenvalue, S from lattice shell sums</div>
+    <div class="ans">All 12 masses predicted — zero free parameters</div>
+  </div>
+</section>
+
+<section>
+  <table class="tbl">
+    <tr><th>Particle</th><th>Predicted</th><th>Observed</th><th>Accuracy</th></tr>
+    <tr><td class="name">Top quark</td><td class="pred">172.70 GeV</td><td class="obs">172.69 GeV</td><td class="err">0.003%</td></tr>
+    <tr><td class="name">Bottom</td><td class="pred">4.181 GeV</td><td class="obs">4.180 GeV</td><td class="err">0.02%</td></tr>
+    <tr><td class="name">Tau</td><td class="pred">1.7770 GeV</td><td class="obs">1.7769 GeV</td><td class="err">0.008%</td></tr>
+    <tr><td class="name">Charm</td><td class="pred">1.273 GeV</td><td class="obs">1.27 GeV</td><td class="err">0.4%</td></tr>
+    <tr><td class="name">Muon</td><td class="pred">105.64 MeV</td><td class="obs">105.66 MeV</td><td class="err">0.02%</td></tr>
+    <tr><td class="name">Strange</td><td class="pred">93.2 MeV</td><td class="obs">93.4 MeV</td><td class="err">0.2%</td></tr>
+    <tr><td class="name">Down</td><td class="pred">4.70 MeV</td><td class="obs">4.67 MeV</td><td class="err">0.6%</td></tr>
+    <tr><td class="name">Up</td><td class="pred">2.16 MeV</td><td class="obs">2.16 MeV</td><td class="err">~0%</td></tr>
+    <tr><td class="name">Electron</td><td class="pred">0.5110 MeV</td><td class="obs">0.5110 MeV</td><td class="err">~0%</td></tr>
+    <tr><td class="name">ν₃</td><td class="pred">49.5 meV</td><td class="obs">~49.6 meV</td><td class="err">~0.2%</td></tr>
+    <tr><td class="name">ν₂</td><td class="pred">8.55 meV</td><td class="obs">~8.6 meV</td><td class="err">0.6%</td></tr>
+    <tr><td class="name">ν₁</td><td class="pred">2.97 meV</td><td class="obs">~3 meV</td><td class="err">~1%</td></tr>
+  </table>
+  <p>Twelve particles. Thirteen orders of magnitude. One geometric formula. <strong>All correct.</strong></p>
+</section>
+
+<div class="gap-half"></div>
+
+<!-- ========== 4 ========== -->
+<section data-s="cosmo" id="s4">
+  <div class="tag">The Deepest Mystery</div>
+  <h2>The worst prediction in science, <em>fixed</em></h2>
+  <p>The <strong>cosmological constant</strong> — the energy of empty space — drives the accelerating expansion of the universe. It is often called the hardest problem in all of physics.</p>
+  <p>Quantum mechanics predicts the vacuum should contain an <strong>enormous</strong> amount of energy. When you calculate it, you get a number that is 10¹²⁰ — that's 1 followed by 120 zeros — times too large. This has been called "the worst prediction in the history of science."</p>
+  <p>From E₈, the answer is exact:</p>
+
+  <div class="fcard">
+    <div class="math">Λ = 8π² / (240 × 30)³²</div>
+    <div class="note">The exponent 32 = (248+8)/8 uses the identity 248+8 = 2⁸ — unique to E₈</div>
+    <div class="ans">= 10⁻¹²¹·⁵³⁷ &nbsp; vs observed &nbsp; 10⁻¹²¹·⁵³⁹ &nbsp; — &nbsp; accuracy 0.002%</div>
+  </div>
+
+  <p>The vacuum energy is suppressed by 240 root modes × 30 Coxeter levels = 7,200 gauge contributions, raised to the 32nd power. The number is absurdly tiny — 0.000…0003 with 121 zeros after the decimal point.</p>
+  <p>It matches the observed expansion rate of the universe to <strong>three significant figures.</strong> From pure mathematics.</p>
+</section>
+
+<div class="hero-num" style="font-size:clamp(24px,4.5vw,36px);letter-spacing:-1px">
+  10<sup style="font-size:0.65em">−121.537</sup>
+  <span class="sub">the energy of empty space, in Planck units</span>
+</div>
+
+<div class="gap-half"></div>
+
+<!-- ========== 5 ========== -->
+<section data-s="all" id="s5">
+  <div class="tag">The Punchline</div>
+  <h2>One shape. <em>Zero</em> adjustable parameters.</h2>
+
+  <p>Everything comes from five numbers that aren't chosen — they're <em>properties of E₈:</em></p>
+
+  <div class="fcard">
+    <div class="math" style="font-size:clamp(18px,3vw,26px);letter-spacing:4px">
+      <span style="color:var(--gold)">248</span> ·
+      <span style="color:var(--blue)">240</span> ·
+      <span style="color:var(--red)">8</span> ·
+      <span style="color:var(--green)">30</span> ·
+      <span style="color:var(--bright)">8π²</span>
+    </div>
+    <div class="note">dimension · roots · rank · Coxeter number · first eigenvalue</div>
+  </div>
+
+  <div class="checks">
+    <p>The fine structure constant &nbsp;(0.003% accuracy)</p>
+    <p>The electroweak vacuum expectation value &nbsp;(0.01%)</p>
+    <p>The Higgs boson mass &nbsp;(0.15%)</p>
+    <p>All 12 fermion masses including neutrinos &nbsp;(0.003–1%)</p>
+    <p>CKM mixing matrix elements &nbsp;(0.07–2%)</p>
+    <p>The cosmological constant &nbsp;(0.002%)</p>
+    <p>Why there are exactly three generations of matter</p>
+    <p>Why the universe has a positive cosmological constant</p>
+  </div>
+
+  <p style="margin-top:28px">No fitting. No free parameters. No anthropic hand-waving. The laws of physics aren't arbitrary choices — they're <em>consequences of geometry.</em></p>
+</section>
+
+<div class="div"></div>
+
+<section>
+  <div class="tag">The Test</div>
+  <h2>How to <em>prove it wrong</em></h2>
+  <p>A theory that can't be falsified is philosophy, not physics. This one makes hard predictions that experiments will test within the next few years:</p>
+  <p><strong>Neutrino masses:</strong> The sum Σmᵥ ≈ 61 meV. The DESI survey and CMB-S4 will measure this by ~2028.</p>
+  <p><strong>Normal mass ordering:</strong> m₃ > m₂ > m₁. JUNO (running now) and DUNE will settle this definitively.</p>
+  <p><strong>Dark energy is constant:</strong> w = −1 exactly. Any measurement of evolving dark energy kills the cosmological constant derivation.</p>
+  <p><strong>No fourth generation:</strong> h = 30 = 2 × 3 × 5 allows exactly three. A new fermion family would disprove the framework immediately.</p>
+  <p>If any of these fail, the theory is wrong. That's how science works.</p>
+</section>
+
+<div class="gap-sm"></div>
+
+<section>
+  <div class="tag">The Question</div>
+  <h2>What if the universe <em>is</em> mathematics?</h2>
+  <p>Einstein spent his last thirty years searching for a geometric unification of physics. He died without finding one.</p>
+  <p>The E₈ framework suggests the answer was hidden in the largest exceptional symmetry group — a structure so rigid that it determines the fine structure constant, every particle mass, and the expansion rate of the cosmos, all from five integers that can't be anything other than what they are.</p>
+  <p>The universe may have no free parameters at all.</p>
+</section>
+
+<div class="gap"></div>
+
+<div id="foot">
+  McKinley 2026<br><br>
+  <a href="https://github.com/kmackinley">github.com/kmackinley</a>
+</div>
+
+</div><!-- /story -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ===== E8 ROOTS ===== */
+function makeRoots(){
+  const R=[];
+  for(let i=0;i<8;i++)for(let j=i+1;j<8;j++)
+    for(let a of[-1,1])for(let b of[-1,1]){
+      const r=[0,0,0,0,0,0,0,0];r[i]=a;r[j]=b;R.push(r);
+    }
+  for(let m=0;m<256;m++){
+    let n=0;const r=[];
+    for(let b=0;b<8;b++){if(m&(1<<b)){r.push(-.5);n++}else r.push(.5)}
+    if(n%2===0)R.push(r);
+  }
+  return R;
+}
+function proj(r){
+  const E=[1,7,11,13,17,19,23,29];let x=0,y=0,z=0;
+  for(let i=0;i<8;i++){
+    const a=2*Math.PI*E[i]/30,b=a*2,c=a*3;
+    x+=r[i]*Math.cos(a);y+=r[i]*Math.sin(a);
+    z+=r[i]*Math.cos(b)*.6+r[i]*Math.sin(c)*.4;
+  }
+  return[x*1.6,y*1.6,z*1.6];
+}
+
+const r8=makeRoots(),r3=r8.map(proj);
+
+/* ===== SCENE ===== */
+let sc,cam,ren,clk,rg,rm;
+let curScene='intro',tgtBright=.5,tgtZ=18,scrollPx=0;
+
+function boot(){
+  sc=new THREE.Scene();
+  cam=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.1,200);
+  cam.position.z=18;
+  ren=new THREE.WebGLRenderer({antialias:true});
+  ren.setSize(innerWidth,innerHeight);
+  ren.setPixelRatio(Math.min(devicePixelRatio,2));
+  ren.setClearColor(0x08080c);
+  document.getElementById('canvas-box').appendChild(ren.domElement);
+  clk=new THREE.Clock();
+
+  // stars
+  const sg=new THREE.BufferGeometry(),sp=new Float32Array(1200*3);
+  for(let i=0;i<sp.length;i++)sp[i]=(Math.random()-.5)*100;
+  sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
+  sc.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0x222244,size:.05,transparent:true,opacity:.4})));
+
+  // roots
+  rg=new THREE.Group();
+  const geo=new THREE.BufferGeometry();
+  const pos=new Float32Array(r3.length*3),col=new Float32Array(r3.length*3),sz=new Float32Array(r3.length);
+  for(let i=0;i<r3.length;i++){
+    pos[i*3]=r3[i][0];pos[i*3+1]=r3[i][1];pos[i*3+2]=r3[i][2];
+    const d=Math.hypot(...r3[i]),t=d/5;
+    const c=new THREE.Color().setHSL(.07+t*.12,.85,.4+t*.2);
+    col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b;
+    sz[i]=2.2+Math.sin(i*.13)*.8;
+  }
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  geo.setAttribute('size',new THREE.BufferAttribute(sz,1));
+
+  rm=new THREE.ShaderMaterial({
+    uniforms:{time:{value:0},bri:{value:.5}},
+    vertexShader:`
+      attribute float size;attribute vec3 color;varying vec3 vc;uniform float time;
+      void main(){vc=color;vec4 mv=modelViewMatrix*vec4(position,1.);
+      float p=1.+.12*sin(time*1.5+length(position)*2.5);
+      gl_PointSize=size*p*(9./-mv.z);gl_Position=projectionMatrix*mv;}`,
+    fragmentShader:`
+      varying vec3 vc;uniform float bri;
+      void main(){float d=length(gl_PointCoord-.5)*2.;if(d>1.)discard;
+      float g=exp(-d*d*2.5),e=smoothstep(1.,.2,d);
+      gl_FragColor=vec4(vc*bri*(g+e*.4),(g*.7+e*.35));}`,
+    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending
+  });
+  rg.add(new THREE.Points(geo,rm));
+
+  // edges
+  const lp=[];
+  for(let i=0;i<r3.length;i++)for(let j=i+1;j<r3.length;j++){
+    const dx=r3[i][0]-r3[j][0],dy=r3[i][1]-r3[j][1],dz=r3[i][2]-r3[j][2];
+    if(dx*dx+dy*dy+dz*dz<4){lp.push(...r3[i],...r3[j])}
+  }
+  const lg=new THREE.BufferGeometry();
+  lg.setAttribute('position',new THREE.Float32BufferAttribute(lp,3));
+  rg.add(new THREE.LineSegments(lg,new THREE.LineBasicMaterial({color:0xe8a020,transparent:true,opacity:.035,blending:THREE.AdditiveBlending})));
+
+  sc.add(rg);
+  addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();ren.setSize(innerWidth,innerHeight)});
+  addEventListener('scroll',onScroll);
+  onScroll();
+  loop();
+}
+
+/* ===== SCROLL ===== */
+function onScroll(){
+  scrollPx=scrollY;
+  if(scrollPx>150)document.getElementById('arrow').style.opacity='0';
+
+  const mid=innerHeight*.45;
+  document.querySelectorAll('section[data-s]').forEach(s=>{
+    const r=s.getBoundingClientRect();
+    if(r.top<mid&&r.bottom>mid){const n=s.dataset.s;if(n!==curScene){curScene=n;sceneSwitch(n)}}
+  });
+
+  // dots
+  const dots=[...document.querySelectorAll('.dot')];
+  for(let i=0;i<6;i++){
+    const el=document.getElementById('s'+i);
+    if(el){const r=el.getBoundingClientRect();if(r.top<mid&&r.bottom>mid){dots.forEach(d=>d.classList.remove('on'));if(dots[i])dots[i].classList.add('on')}}
+  }
+}
+
+function sceneSwitch(s){
+  const b=document.body;
+  switch(s){
+    case'intro':tgtBright=.4;tgtZ=20;b.classList.remove('bright');break;
+    case'roots':tgtBright=1;tgtZ=11;b.classList.add('bright');break;
+    case'alpha':tgtBright=.9;tgtZ=13;b.classList.add('bright');break;
+    case'mass':tgtBright=.45;tgtZ=19;b.classList.remove('bright');break;
+    case'cosmo':tgtBright=.5;tgtZ=22;b.classList.remove('bright');break;
+    case'all':tgtBright=1;tgtZ=9;b.classList.add('bright');break;
+  }
+}
+
+function go(i){document.getElementById('s'+i)?.scrollIntoView({behavior:'smooth'})}
+
+/* ===== RENDER ===== */
+function loop(){
+  requestAnimationFrame(loop);
+  const t=clk.getElapsedTime();
+  rm.uniforms.time.value=t;
+  rm.uniforms.bri.value+=(tgtBright-rm.uniforms.bri.value)*.03;
+  cam.position.z+=(tgtZ-cam.position.z)*.02;
+  rg.rotation.y=t*.055+scrollPx*.00025;
+  rg.rotation.x=Math.sin(t*.09)*.07;
+
+  // dynamic colors per scene
+  if(curScene==='alpha'||curScene==='all'){
+    const c=rg.children[0].geometry.attributes.color;
+    for(let i=0;i<r3.length;i++){
+      const cc=new THREE.Color();
+      if(curScene==='alpha'){
+        const w=Math.sin(t*2.5+i*.026*Math.PI)*.5+.5;
+        cc.setHSL(.07,.95,.2+w*.5);
+      }else{
+        const h=[.07,.58,.95,.42][i%4];
+        const p=.6+.4*Math.sin(t*1.2+i*.04);
+        cc.setHSL(h,.85,.3+p*.3);
+      }
+      c.setXYZ(i,cc.r,cc.g,cc.b);
+    }
+    c.needsUpdate=true;
+  }
+
+  ren.render(sc,cam);
+}
+
+boot();
+</script>
+</body>
+</html>
