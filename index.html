@@ -28,10 +28,11 @@ section p strong{color:var(--bright);font-weight:400}
 .fcard.purple{background:rgba(160,112,224,0.035);border-color:rgba(160,112,224,0.15)}
 .fcard.red{background:rgba(224,64,96,0.035);border-color:rgba(224,64,96,0.15)}
 .fcard.cyan{background:rgba(64,200,224,0.035);border-color:rgba(64,200,224,0.15)}
+.fcard.white{background:rgba(232,232,240,0.04);border-color:rgba(232,232,240,0.2)}
 .fcard .math{font-family:'JetBrains Mono',monospace;font-size:clamp(14px,2vw,18px);color:var(--bright);letter-spacing:1px;margin-bottom:6px}
 .fcard .note{font-size:13px;color:var(--dim);font-style:italic}
 .fcard .ans{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold);margin-top:8px}
-.fcard.blue .ans{color:var(--blue)}.fcard.green .ans{color:var(--green)}.fcard.purple .ans{color:var(--purple)}.fcard.red .ans{color:var(--red)}.fcard.cyan .ans{color:var(--cyan)}
+.fcard.blue .ans{color:var(--blue)}.fcard.green .ans{color:var(--green)}.fcard.purple .ans{color:var(--purple)}.fcard.red .ans{color:var(--red)}.fcard.cyan .ans{color:var(--cyan)}.fcard.white .ans{color:var(--bright)}
 .tbl{width:100%;border-collapse:collapse;margin:22px 0;font-family:'JetBrains Mono',monospace;font-size:12px}
 .tbl th{text-align:left;font-weight:400;color:var(--dim);padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:9px;letter-spacing:2px;text-transform:uppercase}
 .tbl td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.025)}
@@ -49,7 +50,7 @@ section p strong{color:var(--bright);font-weight:400}
 #foot a{color:var(--gold);text-decoration:none}
 #arrow{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:20;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;animation:bob 2.2s ease-in-out infinite;transition:opacity 0.8s}
 @keyframes bob{0%,100%{opacity:.3;transform:translateX(-50%) translateY(0)}50%{opacity:.65;transform:translateX(-50%) translateY(5px)}}
-#dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:6px}
+#dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:5px}
 .dot{width:7px;height:7px;border-radius:50%;border:1px solid var(--dim);background:transparent;cursor:pointer;transition:all .35s;position:relative}
 .dot.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px rgba(232,160,32,0.35)}
 .dot:hover{border-color:var(--gold)}
@@ -69,7 +70,7 @@ section p strong{color:var(--bright);font-weight:400}
 <!-- 0 -->
 <section data-s="intro" id="s0">
 <div class="tag">The Problem</div>
-<h2>Physics has a <em>secret</em></h2>
+<h2>Physics has a <em>dirty secret</em></h2>
 <p>The Standard Model is the most successful scientific theory ever built. It predicts the behaviour of every known particle with stunning precision.</p>
 <p>But it needs <strong>26 numbers</strong> — the mass of the electron, the strength of electromagnetism, the Higgs field energy — that <strong>can't be calculated.</strong> They have to be measured and typed in by hand.</p>
 <p>For fifty years, physicists have asked: <em>why do these numbers have the values they do?</em></p>
@@ -171,33 +172,57 @@ section p strong{color:var(--bright);font-weight:400}
 <tr><td class="name">ν₁</td><td class="pred">2.97 meV</td><td class="obs">~3 meV</td><td class="err">~1%</td></tr>
 </table>
 </section>
-<div class="gap-half"></div>
+<div class="gap-sm"></div>
 
 <!-- 6 -->
-<section data-s="atom" id="s6">
+<section data-s="mixing" id="s6">
+<div class="tag">The Mixing</div>
+<h2>Neutrino oscillations from <em>one Coxeter exponent</em></h2>
+<p>Neutrinos change flavour as they travel. Three angles describe this mixing. The number <strong>23</strong> — the 7th Coxeter exponent of E₈ — determines two of them:</p>
+<div class="trio">
+<div class="fcard purple">
+<div class="math">sin²θ₁₂ = 7/23</div>
+<div class="note">Solar</div>
+<div class="ans">0.304 vs 0.307<br>(0.9%)</div>
+</div>
+<div class="fcard blue">
+<div class="math">sin²θ₂₃ = ½+1/23</div>
+<div class="note">Atmospheric</div>
+<div class="ans">0.543 vs 0.546<br>(0.4%)</div>
+</div>
+<div class="fcard green">
+<div class="math">sin²θ₁₃ = 3α</div>
+<div class="note">Reactor</div>
+<div class="ans">0.0219 vs 0.022<br>(0.5%)</div>
+</div>
+</div>
+<p>The reactor angle is <strong>three times the fine structure constant</strong> — an electromagnetic correction to tribimaximal mixing. The same α that E₈ derived from spectral geometry now reappears in the neutrino sector.</p>
+</section>
+<div class="gap-sm"></div>
+
+<!-- 7 -->
+<section data-s="atom" id="s7">
 <div class="tag">Inside the Atom</div>
 <h2>The size of a proton is <em>geometry</em></h2>
 <p>The <strong>proton radius puzzle</strong> consumed nuclear physics for a decade. The resolution: r<sub>p</sub> = 0.8409 fm.</p>
-<p>From E₈, it's one line:</p>
 <div class="fcard">
 <div class="math">r_p = (R/2) × ℏc/m_p = 4 × λ_proton</div>
 <div class="note">Half the rank of E₈ times the Compton wavelength</div>
 <div class="ans">= 0.8411 fm — accuracy 0.01%</div>
 </div>
-<p>The proton's charge radius is <strong>four times its Compton wavelength.</strong> 4 = R/2. The same integer that sets our spacetime dimensionality sets the size of every nucleus.</p>
+<p>The same R/2 = 4 that sets our spacetime dimensionality sets the size of every atomic nucleus.</p>
 </section>
 <div class="gap-sm"></div>
 
-<!-- 7 -->
-<section data-s="cosmo" id="s7">
+<!-- 8 -->
+<section data-s="cosmo" id="s8">
 <div class="tag">The Cosmos</div>
 <h2>The expansion of the universe from <em>five integers</em></h2>
 <div class="fcard">
 <div class="math">Λ = 8π² / (240 × 30)³²</div>
-<div class="note">Exponent 32 = (248+8)/8 — the identity d+R = 2ᴿ</div>
+<div class="note">Exponent 32 = 2ᴿ/R — the identity d+R = 2ᴿ again</div>
 <div class="ans">10⁻¹²¹·⁵³⁷ vs observed 10⁻¹²¹·⁵³⁹ — 0.002%</div>
 </div>
-<p>The <em>same</em> Coxeter exponent m₄ = 13 that gives the Weinberg angle partitions the universe into dark energy and matter:</p>
 <div class="trio">
 <div class="fcard purple">
 <div class="math">Ω_Λ = 30/43</div>
@@ -215,56 +240,80 @@ section p strong{color:var(--bright);font-weight:400}
 <div class="ans">obs: 13.80<br>(1.2%)</div>
 </div>
 </div>
-<p>E₈ sides with Planck in the Hubble tension — not SH0ES.</p>
-</section>
-<section>
 <div class="fcard cyan">
 <div class="math">T_CMB = Ry / (N·h·R · k_B) = 2.741 K</div>
-<div class="note">Rydberg energy ÷ (240 × 30 × 8) = atomic scale ÷ E₈ integers</div>
+<div class="note">Rydberg energy ÷ (240 × 30 × 8) = 2.741 K</div>
 <div class="ans">Observed: 2.7255 K — 0.6%</div>
 </div>
-</section>
-<div class="gap-half"></div>
-
-<!-- 8 -->
-<section data-s="gravity" id="s8">
-<div class="tag">The Hierarchy</div>
-<h2>Why gravity is <em>absurdly weak</em></h2>
-<p>Gravity is 10³⁶ times weaker than electromagnetism. This bizarre ratio — the <strong>hierarchy problem</strong> — has haunted physics for decades.</p>
-<div class="fcard">
-<div class="math">log₁₀(α_em / α_G) = 36.09 ≈ R(R+1)/2 = 36</div>
-<div class="note">The 8th triangular number — pairs from rank+1 objects</div>
-<div class="ans">The hierarchy is 10^{T₈} — a combinatorial E₈ invariant. Match: 0.3%</div>
-</div>
-<p>The exponent 36 = T₈ is the <strong>triangular number</strong> of the rank of E₈. It counts the number of independent 2-forms on the Cartan subalgebra. The weakness of gravity isn't mysterious — it's the exponential of a counting problem in E₈ geometry.</p>
 </section>
 <div class="gap-sm"></div>
 
 <!-- 9 -->
-<section data-s="elements" id="s9">
-<div class="tag">The Elements</div>
-<h2>E₈ decides <em>which atoms exist</em></h2>
-<p>Two E₈ forces compete inside every nucleus:</p>
-<div class="fcard red">
-<div class="math">α = 1/137 → repulsion between protons</div>
-</div>
-<div class="fcard green">
-<div class="math">α_s = 30/256 → nuclear binding</div>
-</div>
-<p>They balance at <strong>iron</strong> (Z = 26). The table ends at <strong>lead</strong> (Z = 82):</p>
+<section data-s="inflation" id="s9">
+<div class="tag">The Beginning</div>
+<h2>Inflation lasted exactly <em>2h</em> e-folds</h2>
+<p>The spectral index n<sub>s</sub> measures how primordial fluctuations vary with scale. Planck measured it to be 0.9649 ± 0.0042.</p>
 <div class="fcard">
-<div class="math">82 = Σm_k − h − R = 120 − 30 − 8</div>
-<div class="note">Sum of Coxeter exponents minus Coxeter number minus rank</div>
+<div class="math">n_s = 1 − 1/h = 29/30 = 0.9667</div>
+<div class="note">Within 0.4σ of Planck measurement</div>
+<div class="ans">N_e = 2h = 60 e-folds. Starobinsky inflation.</div>
 </div>
-<p>Hydrogen exists because <strong>m_n − m_p = 1.29 MeV</strong> from E₈ quark masses. If negative, protons decay. If above 1.8 MeV, no deuterium. No tuning — the geometry decides.</p>
+<p>The universe expanded by a factor of e⁶⁰ during inflation. 60 = 2h = twice the Coxeter number. The tensor-to-scalar ratio is <strong>r = 12/(2h)² = 1/300 = 0.003</strong> — below current bounds, but testable by the LiteBIRD satellite launching ~2028.</p>
 </section>
 <div class="gap-sm"></div>
 
 <!-- 10 -->
-<section data-s="magic" id="s10">
+<section data-s="gravity" id="s10">
+<div class="tag">The Deepest Question</div>
+<h2>Why gravity is <em>absurdly weak</em></h2>
+<p>The <strong>hierarchy problem</strong> — why the Planck mass is 10¹⁷ times the electroweak scale — has driven theoretical physics for forty years. Supersymmetry, extra dimensions, the multiverse — all attempts to explain one number.</p>
+<p>It's one line:</p>
+<div class="fcard white">
+<div class="math" style="font-size:clamp(16px,2.5vw,22px)">M_Pl = v_EW × exp(4π²) / √R</div>
+<div class="note">Tunnelling amplitude through the spectral gap of E₈</div>
+<div class="ans">1.216 × 10¹⁹ GeV — observed 1.221 × 10¹⁹ — accuracy 0.38%</div>
+</div>
+<p>The exponent 4π² is half the first eigenvalue of the Laplacian on the E₈ torus — the <strong>spectral gap.</strong> The √R counts the eight compact dimensions in the instanton determinant. The hierarchy isn't fine-tuned. It's the tunnelling amplitude through a lattice.</p>
+<div class="fcard red">
+<div class="math">G_N = R ℏc / (v² × exp(8π²))</div>
+<div class="note">Newton's constant from E₈ spectral geometry</div>
+<div class="ans">Accuracy: 0.76%</div>
+</div>
+<p>Gravity is weak because 8π² is large. It was never a mystery. It was a <em>fact about the spectral gap of E₈.</em></p>
+</section>
+<div class="gap-sm"></div>
+
+<!-- 11 -->
+<section data-s="cp" id="s11">
+<div class="tag">The Missing Problem</div>
+<h2>Why <em>θ = 0</em> without an axion</h2>
+<p>QCD has a free parameter θ that violates CP symmetry. Experiments constrain |θ| < 10⁻¹⁰. The <strong>strong CP problem</strong> asks: why so small?</p>
+<p>The standard answer invokes the axion — a hypothetical particle nobody has found. E₈ gives a simpler answer: <strong>geometry forces θ = 0.</strong></p>
+<div class="fcard green">
+<div class="math">E₈ lattice: unique even unimodular in 8D</div>
+<div class="note">Weyl group acts transitively → only θ = 0 is invariant</div>
+<div class="ans">θ = 0 is forced, not fine-tuned. No axion needed.</div>
+</div>
+</section>
+<div class="gap-sm"></div>
+
+<!-- 12 -->
+<section data-s="elements" id="s12">
+<div class="tag">The Elements</div>
+<h2>E₈ decides <em>which atoms exist</em></h2>
+<p>Two E₈ forces compete inside every nucleus. They balance at iron (Z = 26). The table ends at lead:</p>
+<div class="fcard">
+<div class="math">82 = Σm_k − h − R = 120 − 30 − 8</div>
+<div class="note">Sum of Coxeter exponents minus Coxeter number minus rank</div>
+</div>
+<p>Hydrogen exists because <strong>m_n − m_p = 1.29 MeV</strong> from E₈ quark masses. Carbon exists because the Hoyle resonance falls where α and α_s put it. No tuning — the geometry decides.</p>
+</section>
+<div class="gap-sm"></div>
+
+<!-- 13 -->
+<section data-s="magic" id="s13">
 <div class="tag">Hidden Structure</div>
 <h2>Nuclear magic numbers are <em>E₈ invariants</em></h2>
-<p>Nuclei with "magic" proton or neutron counts are extraordinarily stable. Nobody has explained <em>why these seven numbers.</em></p>
 <div class="magic-grid">
 <div class="magic-cell"><div class="num">2</div><div class="lbl">|α|²</div></div>
 <div class="magic-cell"><div class="num">8</div><div class="lbl">R</div></div>
@@ -274,18 +323,16 @@ section p strong{color:var(--bright);font-weight:400}
 <div class="magic-cell"><div class="num">82</div><div class="lbl">Σm−h−R</div></div>
 <div class="magic-cell"><div class="num">126</div><div class="lbl">σ₃(5)</div></div>
 </div>
-<p><strong>28</strong> = σ₃(3) = C(8,2) = dim(SO(8)) — triple-determined by E₈. <strong>126</strong> = σ₃(5) = roots of E₇, the maximal subgroup. The gap 50→82 is <strong>32 = 2ᴿ/R</strong>, the cosmological constant ratio.</p>
 <div class="fcard purple">
 <div class="math">P(all 7 by chance) = 1 in 1,100,000</div>
-<div class="note">30 E₈ integers in [1,200]. Expected ~1 match. Got all 7.</div>
-<div class="ans">6σ significance</div>
+<div class="note">6σ significance</div>
 </div>
-<p>The pattern continues. The E₈ theta series coefficient for shell 6 is <strong>σ₃(6) = 252</strong> — matching the number of stable nuclides in nature. The same function that organises fermion masses counts how many isotopes the universe allows.</p>
+<p>The theta series continues: <strong>σ₃(6) = 252</strong> matches the total number of stable nuclides in nature. The function that organises fermion masses also counts how many isotopes the universe allows.</p>
 </section>
 <div class="gap-half"></div>
 
-<!-- 11 -->
-<section data-s="all" id="s11">
+<!-- 14 -->
+<section data-s="all" id="s14">
 <div class="tag">The Punchline</div>
 <h2>One shape. <em>Zero</em> free parameters.</h2>
 <div class="fcard">
@@ -303,24 +350,30 @@ section p strong{color:var(--bright);font-weight:400}
 <p>Weak mixing angle sin²θ_W = 3/13 (0.20%)</p>
 <p>Strong coupling α_s = 30/256 (0.6%)</p>
 <p>Gauge unification at α⁻¹ = h = 30</p>
+<p>Planck mass M_Pl = v·exp(4π²)/√R (0.38%)</p>
+<p>Newton's constant G (0.76%)</p>
 <p>Electroweak vacuum v = 246 GeV (0.01%)</p>
 <p>Higgs boson mass (0.15%)</p>
 <p>All 12 fermion masses including neutrinos (0.003–1%)</p>
 <p>CKM mixing matrix (0.07–2%)</p>
+<p>PMNS neutrino mixing angles (0.4–0.9%)</p>
 <p>Cosmological constant Λ = 10⁻¹²¹·⁵⁴ (0.002%)</p>
 <p>Dark energy fraction Ω_Λ = 30/43 (1.9%)</p>
 <p>Hubble constant H₀ = 67.4 km/s/Mpc</p>
 <p>Age of the universe = 13.96 Gyr (1.2%)</p>
 <p>CMB temperature T₀ = 2.741 K (0.6%)</p>
+<p>Spectral index n_s = 29/30 (0.2%)</p>
+<p>Inflation: 2h = 60 e-folds, Starobinsky</p>
+<p>Tensor-to-scalar ratio r = 1/300 (testable)</p>
 <p>Proton charge radius r_p = 0.8411 fm (0.01%)</p>
-<p>Gravity hierarchy α/α_G = 10³⁶ = 10^{T₈} (0.3%)</p>
+<p>Strong CP: θ = 0 by symmetry (no axion)</p>
 <p>Three generations from h = 2×3×5</p>
 <p>Four spacetime dimensions (12 − R = 4)</p>
 <p>Heaviest stable element Z = 82 = Σm−h−R</p>
 <p>All 7 nuclear magic numbers (6σ)</p>
 <p>~252 stable nuclides = σ₃(6)</p>
 <p>Hydrogen stability (m_n > m_p)</p>
-<p>Carbon existence (Hoyle resonance from α vs α_s)</p>
+<p>Carbon existence (Hoyle state from α vs α_s)</p>
 </div>
 </section>
 <div class="div"></div>
@@ -329,8 +382,10 @@ section p strong{color:var(--bright);font-weight:400}
 <h2>How to <em>prove it wrong</em></h2>
 <p><strong>Neutrino masses:</strong> Σmᵥ ≈ 61 meV. DESI + CMB-S4 by ~2028.</p>
 <p><strong>Normal ordering:</strong> m₃ > m₂ > m₁. JUNO and DUNE will decide.</p>
+<p><strong>Tensor-to-scalar ratio:</strong> r = 0.003. LiteBIRD sensitivity ~0.001.</p>
 <p><strong>Dark energy constant:</strong> w = −1 exactly. Evolving dark energy kills it.</p>
 <p><strong>No fourth generation.</strong> h = 2×3×5 → exactly three families.</p>
+<p><strong>No axion.</strong> θ = 0 by geometry, not by Peccei-Quinn symmetry.</p>
 <p><strong>Hubble tension:</strong> Predicts 67.4 (Planck), not 73 (SH0ES).</p>
 <p>If any of these fail, the theory is wrong. That's how science works.</p>
 </section>
@@ -338,9 +393,9 @@ section p strong{color:var(--bright);font-weight:400}
 <section>
 <div class="tag">The Question</div>
 <h2>What if the universe <em>is</em> mathematics?</h2>
-<p>Every force, every particle, every element, the size of a proton, the temperature of the cosmic background, the age of the universe, the weakness of gravity — all from five integers that can't be anything other than what they are.</p>
-<p>The universe has zero free parameters. It has geometry.</p>
-<p>And the geometry is E₈.</p>
+<p>Every force, every particle, every element, the size of a proton, the weakness of gravity, the temperature of the cosmic background, the age and fate of the universe — all from five integers that can't be anything other than what they are.</p>
+<p>Zero free parameters. Zero choices. Pure geometry.</p>
+<p>The geometry is E₈.</p>
 </section>
 <div class="gap"></div>
 <div id="foot">McKinley 2026<br><br><a href="https://github.com/kmackinley">github.com/kmackinley</a></div>
@@ -355,12 +410,15 @@ const SEC=[
 {id:'s3',key:'alpha',tip:'1/137',b:.9,z:13,g:1},
 {id:'s4',key:'forces',tip:'Three Forces',b:.75,z:15,g:1},
 {id:'s5',key:'mass',tip:'Twelve Particles',b:.45,z:19,g:0},
-{id:'s6',key:'atom',tip:'Proton Radius',b:.6,z:14,g:0},
-{id:'s7',key:'cosmo',tip:'The Cosmos',b:.5,z:22,g:0},
-{id:'s8',key:'gravity',tip:'The Hierarchy',b:.35,z:25,g:0},
-{id:'s9',key:'elements',tip:'The Elements',b:.4,z:20,g:0},
-{id:'s10',key:'magic',tip:'Magic Numbers',b:.6,z:16,g:0},
-{id:'s11',key:'all',tip:'The Result',b:1,z:9,g:1}
+{id:'s6',key:'mixing',tip:'Neutrino Mixing',b:.55,z:17,g:0},
+{id:'s7',key:'atom',tip:'Proton Radius',b:.6,z:14,g:0},
+{id:'s8',key:'cosmo',tip:'The Cosmos',b:.5,z:22,g:0},
+{id:'s9',key:'inflation',tip:'Inflation',b:.45,z:24,g:0},
+{id:'s10',key:'gravity',tip:'The Hierarchy',b:.35,z:25,g:0},
+{id:'s11',key:'cp',tip:'Strong CP',b:.5,z:18,g:0},
+{id:'s12',key:'elements',tip:'The Elements',b:.4,z:20,g:0},
+{id:'s13',key:'magic',tip:'Magic Numbers',b:.6,z:16,g:0},
+{id:'s14',key:'all',tip:'The Result',b:1,z:9,g:1}
 ];
 function makeRoots(){const R=[];for(let i=0;i<8;i++)for(let j=i+1;j<8;j++)for(let a of[-1,1])for(let b of[-1,1]){const r=[0,0,0,0,0,0,0,0];r[i]=a;r[j]=b;R.push(r)}for(let m=0;m<256;m++){let n=0;const r=[];for(let b=0;b<8;b++){if(m&(1<<b))r.push(-.5),n++;else r.push(.5)}if(n%2===0)R.push(r)}return R}
 function proj(r){const E=[1,7,11,13,17,19,23,29];let x=0,y=0,z=0;for(let i=0;i<8;i++){const a=2*Math.PI*E[i]/30;x+=r[i]*Math.cos(a);y+=r[i]*Math.sin(a);z+=r[i]*Math.cos(a*2)*.6+r[i]*Math.sin(a*3)*.4}return[x*1.6,y*1.6,z*1.6]}
@@ -412,7 +470,7 @@ const r=el.getBoundingClientRect();if(r.top<mid&&r.bottom>mid){
 if(s.key!==curKey){curKey=s.key;tgtB=s.b;tgtZ=s.z;
 s.g?document.body.classList.add('bright'):document.body.classList.remove('bright')}
 dots.forEach(d=>d.classList.remove('on'));if(dots[i])dots[i].classList.add('on')}})}
-const DYN=['alpha','forces','all','magic','atom','cosmo','gravity'];
+const DYN=['alpha','forces','all','magic','atom','cosmo','gravity','inflation','mixing'];
 function loop(){
 requestAnimationFrame(loop);const t=clk.getElapsedTime();
 rm.uniforms.time.value=t;rm.uniforms.bri.value+=(tgtB-rm.uniforms.bri.value)*.03;
@@ -422,11 +480,13 @@ if(DYN.includes(curKey)){
 const c=rg.children[0].geometry.attributes.color;
 for(let i=0;i<r3.length;i++){const cc=new THREE.Color();
 if(curKey==='alpha')cc.setHSL(.07,.95,.2+.5*(.5+.5*Math.sin(t*2.5+i*.026*Math.PI)));
-else if(curKey==='forces'){cc.setHSL([.07,.58,.0][i%3],.85,.3+.3*(.6+.4*Math.sin(t*1.5+i*.05)))}
+else if(curKey==='forces')cc.setHSL([.07,.58,.0][i%3],.85,.3+.3*(.6+.4*Math.sin(t*1.5+i*.05)));
 else if(curKey==='magic'){const sh=Math.floor(Math.hypot(...r3[i])/1.5);cc.setHSL([.07,.12,.28,.45,.58,.72,.85][sh%7]||.07,.8,.25+.35*(.5+.5*Math.sin(t*1.8+i*.03)))}
 else if(curKey==='atom')cc.setHSL(.07+.02*Math.sin(i*.1),.9,.2+.5*(.5+.5*Math.sin(t*3+i*.04)));
 else if(curKey==='cosmo')cc.setHSL(.58+.12*Math.sin(i*.05),.7,.2+.4*(.5+.5*Math.sin(t*1.2+i*.02)));
-else if(curKey==='gravity')cc.setHSL(.0,.6,.1+.2*(.5+.5*Math.sin(t*.8+i*.01)));
+else if(curKey==='gravity')cc.setHSL(.0,.5,.08+.15*(.5+.5*Math.sin(t*.7+i*.008)));
+else if(curKey==='inflation')cc.setHSL(.12+.08*Math.sin(i*.03),.8,.15+.35*(.5+.5*Math.sin(t*2+i*.025)));
+else if(curKey==='mixing')cc.setHSL(.72+.15*Math.sin(i*.04),.7,.2+.3*(.5+.5*Math.sin(t*1.8+i*.035)));
 else cc.setHSL([.07,.58,.95,.42][i%4],.85,.3+.3*(.6+.4*Math.sin(t*1.2+i*.04)));
 c.setXYZ(i,cc.r,cc.g,cc.b)}c.needsUpdate=true}
 ren.render(sc,cam)}
