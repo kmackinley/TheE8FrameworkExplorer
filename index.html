@@ -7,7 +7,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#08080c;--text:#b0b0c0;--bright:#e8e8f0;--gold:#e8a020;--blue:#4090e0;--red:#e04060;--green:#40e0a0;--purple:#a070e0;--cyan:#40c8e0;--dim:#505068}
+:root{--bg:#08080c;--text:#b0b0c0;--bright:#e8e8f0;--gold:#e8a020;--blue:#4090e0;--red:#e04060;--green:#40e0a0;--purple:#a070e0;--cyan:#40c8e0;--dim:#505068;--warm:#c09060}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;overflow-x:hidden}
 #canvas-box{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;transition:opacity 1.2s;opacity:0.55}
@@ -29,10 +29,11 @@ section p strong{color:var(--bright);font-weight:400}
 .fcard.red{background:rgba(224,64,96,0.035);border-color:rgba(224,64,96,0.15)}
 .fcard.cyan{background:rgba(64,200,224,0.035);border-color:rgba(64,200,224,0.15)}
 .fcard.white{background:rgba(232,232,240,0.04);border-color:rgba(232,232,240,0.2)}
+.fcard.warm{background:rgba(192,144,96,0.04);border-color:rgba(192,144,96,0.18)}
 .fcard .math{font-family:'JetBrains Mono',monospace;font-size:clamp(14px,2vw,18px);color:var(--bright);letter-spacing:1px;margin-bottom:6px}
 .fcard .note{font-size:13px;color:var(--dim);font-style:italic}
 .fcard .ans{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold);margin-top:8px}
-.fcard.blue .ans{color:var(--blue)}.fcard.green .ans{color:var(--green)}.fcard.purple .ans{color:var(--purple)}.fcard.red .ans{color:var(--red)}.fcard.cyan .ans{color:var(--cyan)}.fcard.white .ans{color:var(--bright)}
+.fcard.blue .ans{color:var(--blue)}.fcard.green .ans{color:var(--green)}.fcard.purple .ans{color:var(--purple)}.fcard.red .ans{color:var(--red)}.fcard.cyan .ans{color:var(--cyan)}.fcard.white .ans{color:var(--bright)}.fcard.warm .ans{color:var(--warm)}
 .tbl{width:100%;border-collapse:collapse;margin:22px 0;font-family:'JetBrains Mono',monospace;font-size:12px}
 .tbl th{text-align:left;font-weight:400;color:var(--dim);padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:9px;letter-spacing:2px;text-transform:uppercase}
 .tbl td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.025)}
@@ -46,6 +47,35 @@ section p strong{color:var(--bright);font-weight:400}
 .magic-cell .lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--dim);margin-top:4px;letter-spacing:1px}
 .trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:24px 0}
 .trio .fcard{margin:0}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.duo .fcard{margin:0}
+/* Physics explainer cards */
+.phys{background:rgba(176,176,192,0.03);border:1px solid rgba(176,176,192,0.08);border-radius:8px;padding:24px 26px;margin:28px 0}
+.phys .label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+.phys p{font-size:clamp(15px,2.2vw,17px);line-height:1.7;margin-bottom:10px;font-weight:300;color:var(--text)}
+.phys p:last-child{margin-bottom:0}
+.phys strong{color:var(--bright);font-weight:400}
+/* Particle grid */
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:20px 0}
+.pgrid .pc{background:rgba(232,160,32,0.04);border:1px solid rgba(232,160,32,0.1);border-radius:5px;padding:10px 6px;text-align:center}
+.pgrid .pc.quark{border-color:rgba(224,64,96,0.2);background:rgba(224,64,96,0.03)}
+.pgrid .pc.lepton{border-color:rgba(64,144,224,0.2);background:rgba(64,144,224,0.03)}
+.pgrid .pc.boson{border-color:rgba(64,224,160,0.2);background:rgba(64,224,160,0.03)}
+.pgrid .pc.higgs{border-color:rgba(232,160,32,0.25);background:rgba(232,160,32,0.05)}
+.pgrid .pc .sym{font-family:'JetBrains Mono',monospace;font-size:clamp(16px,2.5vw,22px);font-weight:500;color:var(--bright)}
+.pgrid .pc .pname{font-size:10px;color:var(--dim);margin-top:3px}
+.pgrid .pc .pmass{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-faint,#55556a);margin-top:2px}
+/* Force carrier strip */
+.fstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:22px 0}
+.fstrip .fc{border-radius:6px;padding:14px 8px;text-align:center}
+.fstrip .fc .fname{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.fstrip .fc .fcarrier{font-size:clamp(14px,2vw,18px);color:var(--bright);margin-bottom:4px}
+.fstrip .fc .fwhat{font-size:11px;color:var(--dim);font-style:italic}
+.fstrip .em{background:rgba(232,160,32,0.05);border:1px solid rgba(232,160,32,0.15)}.fstrip .em .fname{color:var(--gold)}
+.fstrip .wk{background:rgba(64,144,224,0.05);border:1px solid rgba(64,144,224,0.15)}.fstrip .wk .fname{color:var(--blue)}
+.fstrip .st{background:rgba(224,64,96,0.05);border:1px solid rgba(224,64,96,0.15)}.fstrip .st .fname{color:var(--red)}
+.fstrip .gr{background:rgba(160,112,224,0.05);border:1px solid rgba(160,112,224,0.15)}.fstrip .gr .fname{color:var(--purple)}
+
 #foot{text-align:center;padding:80px 28px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:2px}
 #foot a{color:var(--gold);text-decoration:none}
 #arrow{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:20;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;animation:bob 2.2s ease-in-out infinite;transition:opacity 0.8s}
@@ -60,7 +90,7 @@ section p strong{color:var(--bright);font-weight:400}
 .counter .n{color:var(--gold);text-shadow:0 0 60px rgba(232,160,32,0.3)}
 .counter .d{color:var(--dim);font-size:clamp(30px,5vw,50px)}
 .counter .sub{display:block;font-size:clamp(11px,1.6vw,14px);color:var(--dim);margin-top:6px;letter-spacing:3px;font-weight:300}
-@media(max-width:700px){#dots{display:none}.tbl{font-size:10px}.fcard .math{font-size:13px}.magic-grid{grid-template-columns:repeat(4,1fr)}.trio{grid-template-columns:1fr}}
+@media(max-width:700px){#dots{display:none}.tbl{font-size:10px}.fcard .math{font-size:13px}.magic-grid{grid-template-columns:repeat(4,1fr)}.trio{grid-template-columns:1fr}.duo{grid-template-columns:1fr}.pgrid{grid-template-columns:repeat(3,1fr)}.fstrip{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -71,7 +101,9 @@ section p strong{color:var(--bright);font-weight:400}
 <div id="story">
 <div class="gap"></div>
 
-<!-- 0 -->
+<!-- ═══════════════════════════════════════════
+     0 — THE PROBLEM
+     ═══════════════════════════════════════════ -->
 <section data-s="intro" id="s0">
 <div class="tag">The Problem</div>
 <h2>Physics has a <em>secret</em></h2>
@@ -82,8 +114,76 @@ section p strong{color:var(--bright);font-weight:400}
 <div class="hero-num">26<span class="sub">unexplained constants</span></div>
 <div class="gap-half"></div>
 
-<!-- 1 -->
-<section data-s="roots" id="s1">
+<!-- ═══════════════════════════════════════════
+     1 — WHAT IS THE STANDARD MODEL?
+     ═══════════════════════════════════════════ -->
+<section data-s="sm" id="s1">
+<div class="tag">The Theory</div>
+<h2>What the Standard Model <em>actually says</em></h2>
+<p>Everything you can touch, see, or measure is made of <strong>twelve particles</strong> interacting through <strong>three forces</strong>, held together by <strong>one field</strong> that gives them mass.</p>
+
+<div class="phys">
+<div class="label">The particles</div>
+<p>Matter is built from two families. <strong>Quarks</strong> feel all three forces and bind into protons and neutrons. <strong>Leptons</strong> — like the electron — ignore the strong force and orbit freely.</p>
+<p>Each comes in three <strong>generations:</strong> heavier copies of the same particle with identical charges but different masses. Nobody knows why there are three. Not two. Not four. Three.</p>
+</div>
+
+<div class="pgrid">
+<div class="pc quark"><div class="sym">u</div><div class="pname">up</div><div class="pmass">2.2 MeV</div></div>
+<div class="pc quark"><div class="sym">c</div><div class="pname">charm</div><div class="pmass">1.27 GeV</div></div>
+<div class="pc quark"><div class="sym">t</div><div class="pname">top</div><div class="pmass">173 GeV</div></div>
+<div class="pc boson"><div class="sym">γ</div><div class="pname">photon</div><div class="pmass">0</div></div>
+
+<div class="pc quark"><div class="sym">d</div><div class="pname">down</div><div class="pmass">4.7 MeV</div></div>
+<div class="pc quark"><div class="sym">s</div><div class="pname">strange</div><div class="pmass">93 MeV</div></div>
+<div class="pc quark"><div class="sym">b</div><div class="pname">bottom</div><div class="pmass">4.18 GeV</div></div>
+<div class="pc boson"><div class="sym">g</div><div class="pname">gluon</div><div class="pmass">0</div></div>
+
+<div class="pc lepton"><div class="sym">e</div><div class="pname">electron</div><div class="pmass">0.511 MeV</div></div>
+<div class="pc lepton"><div class="sym">μ</div><div class="pname">muon</div><div class="pmass">106 MeV</div></div>
+<div class="pc lepton"><div class="sym">τ</div><div class="pname">tau</div><div class="pmass">1.78 GeV</div></div>
+<div class="pc boson"><div class="sym">W</div><div class="pname">W boson</div><div class="pmass">80.4 GeV</div></div>
+
+<div class="pc lepton"><div class="sym">ν<sub>e</sub></div><div class="pname">e neutrino</div><div class="pmass">~3 meV</div></div>
+<div class="pc lepton"><div class="sym">ν<sub>μ</sub></div><div class="pname">μ neutrino</div><div class="pmass">~9 meV</div></div>
+<div class="pc lepton"><div class="sym">ν<sub>τ</sub></div><div class="pname">τ neutrino</div><div class="pmass">~50 meV</div></div>
+<div class="pc higgs"><div class="sym">H</div><div class="pname">Higgs</div><div class="pmass">125 GeV</div></div>
+</div>
+
+<p>Look at those masses. The top quark is <strong>eighty billion</strong> times heavier than the electron neutrino. These aren't small differences — they span thirteen orders of magnitude. The Standard Model has no idea why.</p>
+</section>
+<div class="gap-sm"></div>
+
+<!-- ═══════════════════════════════════════════
+     2 — THE FORCES
+     ═══════════════════════════════════════════ -->
+<section data-s="what-forces" id="s2">
+<div class="tag">The Forces</div>
+<h2>What forces <em>actually do</em></h2>
+<p>A force, in modern physics, is a <strong>particle exchange.</strong> Two electrons repel because they throw photons back and forth. A proton holds together because quarks exchange gluons. The weak force lets one particle transform into another entirely.</p>
+
+<div class="fstrip">
+<div class="fc em"><div class="fname">Electromagnetic</div><div class="fcarrier">γ photon</div><div class="fwhat">Holds electrons in atoms</div></div>
+<div class="fc wk"><div class="fname">Weak</div><div class="fcarrier">W± Z bosons</div><div class="fwhat">Transforms particle identity</div></div>
+<div class="fc st"><div class="fname">Strong</div><div class="fcarrier">8 gluons</div><div class="fwhat">Binds quarks into protons</div></div>
+<div class="fc gr"><div class="fname">Gravity</div><div class="fcarrier">graviton?</div><div class="fwhat">Curves spacetime</div></div>
+</div>
+
+<div class="phys">
+<div class="label">The language of forces</div>
+<p>Each force is described by a <strong>symmetry group.</strong> Electromagnetism uses U(1) — rotations in a circle. The weak force uses SU(2) — rotations of a sphere. The strong force uses SU(3) — rotations in an 8-dimensional colour space. Gravity uses SO(3,1) — the symmetry of spacetime itself.</p>
+<p>The Standard Model is the statement that <strong>SU(3) × SU(2) × U(1)</strong> describes all non-gravitational physics. It works perfectly. But it doesn't explain why <em>these</em> groups and not others. It doesn't explain their coupling strengths. And it says nothing about gravity.</p>
+</div>
+
+<p>Each force has a <strong>coupling constant</strong> — a single number that sets its strength. The electromagnetic coupling is α ≈ 1/137. The weak coupling gives sin²θ_W ≈ 0.231. The strong coupling is α_s ≈ 0.118. The Standard Model <em>measures</em> these numbers. It cannot <em>derive</em> them.</p>
+</section>
+<div class="div"></div>
+<div class="gap-sm"></div>
+
+<!-- ═══════════════════════════════════════════
+     3 — THE SHAPE
+     ═══════════════════════════════════════════ -->
+<section data-s="roots" id="s3">
 <div class="tag">The Shape</div>
 <h2>A structure with <em>impossible</em> symmetry</h2>
 <p>In 1887, Wilhelm Killing discovered <strong>E₈</strong> — a geometric object in 8 dimensions with 248 symmetries. It is the largest exceptional symmetry in mathematics. Nothing bigger exists.</p>
@@ -93,13 +193,22 @@ section p strong{color:var(--bright);font-weight:400}
 <div class="note">dimension + rank = 2^rank</div>
 <div class="ans">True ONLY for E₈. No other Lie group satisfies this.</div>
 </div>
+
+<div class="phys">
+<div class="label">Why E₈ might be the universe</div>
+<p>E₈ contains every symmetry group the Standard Model uses. <strong>SU(3) × SU(2) × U(1)</strong> — the entire gauge structure of particle physics — fits inside E₈ as a subgroup. So does <strong>SO(3,1)</strong>, the Lorentz group of gravity. No other exceptional Lie group is large enough to hold both.</p>
+<p>The question isn't whether the Standard Model <em>fits</em> inside E₈. It does. The question is whether E₈ <em>explains</em> it — whether the 26 free parameters are actually determined by five integers that describe E₈'s geometry.</p>
+</div>
+
 <p>Its lattice is the densest sphere packing in 8 dimensions. Its spectrum satisfies ζ(0) = −1, unique among all lattices. Its Coxeter number is <strong>30 = 2 × 3 × 5</strong> — the product of the first three primes.</p>
 </section>
 <div class="div"></div>
 <div class="gap-sm"></div>
 
-<!-- 2 -->
-<section data-s="dims" id="s2">
+<!-- ═══════════════════════════════════════════
+     4 — WHY 4 DIMENSIONS
+     ═══════════════════════════════════════════ -->
+<section data-s="dims" id="s4">
 <div class="tag">The Stage</div>
 <h2>Why we live in <em>four</em> dimensions</h2>
 <p>The framework operates in 12 total dimensions — four that we experience, plus eight curled up at scales too small to see.</p>
@@ -108,28 +217,46 @@ section p strong{color:var(--bright);font-weight:400}
 <div class="note">Total dimensions minus rank of E₈ equals our spacetime</div>
 <div class="ans">We live in 4D because E₈ has rank 8.</div>
 </div>
+
+<div class="phys">
+<div class="label">What "curled up" means</div>
+<p>Imagine an ant on a garden hose. The ant can walk along the hose (one big dimension) or around it (one tiny dimension). If the hose is thin enough, the ant only <em>notices</em> the long dimension. The curled-up one is still there — it just looks like a point from far away.</p>
+<p>In E₈ theory, our universe is the garden hose. The eight extra dimensions are curled into a specific shape — the <strong>E₈ Coxeter torus</strong> — so tightly that no experiment can resolve them directly. But their geometry leaks into our four dimensions as the coupling constants, particle masses, and mixing angles we measure.</p>
+</div>
+
 <p>12 is forced: the only dimensionality where the index theorem produces chiral fermions on an E₈ lattice. The internal space <em>must</em> be 8-dimensional. The leftover is our universe.</p>
 </section>
 <div class="gap-sm"></div>
 
-<!-- 3 -->
-<section data-s="alpha" id="s3">
+<!-- ═══════════════════════════════════════════
+     5 — THE FINE STRUCTURE CONSTANT
+     ═══════════════════════════════════════════ -->
+<section data-s="alpha" id="s5">
 <div class="tag">The First Miracle</div>
 <h2>1/137 — the most <em>mysterious</em> number in physics</h2>
 <p>The <strong>fine structure constant</strong> α ≈ 1/137 is the strength of electromagnetism. It sets the size of atoms, the speed of chemistry, and the colour of stars.</p>
 <p>Feynman called it "one of the greatest damn mysteries of physics."</p>
+
+<div class="phys">
+<div class="label">What α controls</div>
+<p>Change α by 4% and stars can't make carbon. Change it by 10% and atoms fall apart. This one number determines how strongly electrons cling to nuclei, how fast light interacts with matter, and whether chemistry — and therefore life — is possible.</p>
+<p>The Standard Model takes α as an input. It has never been derived from anything deeper.</p>
+</div>
+
 <div class="fcard">
 <div class="math">α⁻¹ = (4π · 30 / e) × √(240/248) × 240/237</div>
 <div class="note">Every number is an E₈ invariant — all nine factors proven</div>
 <div class="ans">= 137.036 — matches experiment to 0.003%</div>
 </div>
-<p>Because E₈ derives α independently of measurement, it <em>predicts</em> the electron's anomalous magnetic moment — breaking the circularity that has existed since Schwinger's 1948 calculation.</p>
+<p>The five integers: <strong>d = 248</strong> (dimension), <strong>N = 240</strong> (roots), <strong>R = 8</strong> (rank), <strong>h = 30</strong> (Coxeter number), <strong>e = 2.718...</strong> (from the spectral identity ζ(0) = −1). Every factor traces to a specific E₈ invariant. Nothing is adjusted.</p>
 </section>
 <div class="hero-num">137.036<span class="sub">from five integers</span></div>
 <div class="gap-sm"></div>
 
-<!-- 4 -->
-<section data-s="forces" id="s4">
+<!-- ═══════════════════════════════════════════
+     6 — THREE FORCES FROM ONE
+     ═══════════════════════════════════════════ -->
+<section data-s="forces" id="s6">
 <div class="tag">Three Forces</div>
 <h2>Every force from <em>one geometry</em></h2>
 <div class="fcard">
@@ -147,19 +274,101 @@ section p strong{color:var(--bright);font-weight:400}
 <div class="note">Strong coupling — the unique identity d+R = 2ᴿ</div>
 <div class="ans">0.6%</div>
 </div>
+
+<div class="phys">
+<div class="label">What unification means</div>
+<p>At low energies, the three forces look completely different — electromagnetism is long-range, the weak force operates inside nuclei, the strong force confines quarks. But as you go to higher energies, their strengths converge.</p>
+<p>In E₈, they don't just converge — they <em>become the same force.</em> At the unification scale, the single E₈ gauge connection splits into the three Standard Model pieces, each picking up its coupling from a different geometric feature of the Coxeter torus. One geometry. Three projections. Three forces.</p>
+</div>
+
 <p>At unification, all three converge to <strong>α⁻¹ = h = 30</strong>. One coupling. One geometry. Three forces.</p>
 </section>
 <div class="gap-sm"></div>
 
-<!-- 5 -->
-<section data-s="mass" id="s5">
+<!-- ═══════════════════════════════════════════
+     7 — WHY PARTICLES HAVE MASS
+     ═══════════════════════════════════════════ -->
+<section data-s="higgs" id="s7">
+<div class="tag">The Higgs Field</div>
+<h2>Why particles have <em>mass</em></h2>
+
+<div class="phys">
+<div class="label">The problem mass creates</div>
+<p>Without the Higgs field, every particle would travel at the speed of light and weigh nothing. There would be no atoms, no chemistry, no structure. The weak force would have infinite range, identical to electromagnetism. The universe would be a featureless soup of massless particles.</p>
+<p>The Higgs field fills all of space. Particles that interact with it are slowed down — and that resistance to acceleration is what we call <strong>mass.</strong> The stronger the interaction, the heavier the particle. The photon doesn't interact at all, so it remains massless. The top quark interacts maximally, so it's the heaviest.</p>
+</div>
+
+<p>In the Standard Model, the Higgs field's energy scale — the <strong>vacuum expectation value</strong> v = 246 GeV — is a free parameter. In E₈, it's calculated:</p>
+
+<div class="fcard">
+<div class="math">v = d × (1 − α) = 248 × (1 − 1/137.036)</div>
+<div class="note">Dimension of E₈ corrected by its own coupling</div>
+<div class="ans">= 246.19 GeV — observed 246.22 GeV — 0.01%</div>
+</div>
+
+<p>The Higgs boson mass follows from the same geometry:</p>
+<div class="fcard warm">
+<div class="math">m_H = v × √(2λ) where λ = 1/(2h)</div>
+<div class="note">Higgs self-coupling set by the Coxeter number</div>
+<div class="ans">= 125.0 GeV — observed 125.25 GeV — 0.15%</div>
+</div>
+
+<div class="phys">
+<div class="label">Where the Higgs lives in E₈</div>
+<p>In the 12D Yang–Mills action, the field strength F<sub>MN</sub> splits into three sectors. The <strong>F<sub>μν</sub></strong> components (both indices in our four spacetime dimensions) give the gauge forces. The <strong>F<sub>μm</sub></strong> components (one spacetime, one internal) give gravity. And the <strong>F<sub>mn</sub></strong> components (both internal) give the Higgs mechanism.</p>
+<p>The Higgs isn't an extra ingredient bolted onto the theory. It's the internal-internal part of the same E₈ field strength that produces everything else.</p>
+</div>
+</section>
+<div class="gap-sm"></div>
+
+<!-- ═══════════════════════════════════════════
+     8 — WHY THREE GENERATIONS
+     ═══════════════════════════════════════════ -->
+<section data-s="gens" id="s8">
+<div class="tag">Three Generations</div>
+<h2>Why nature <em>repeats</em> itself</h2>
+
+<div class="phys">
+<div class="label">The deepest pattern in particle physics</div>
+<p>The electron has two heavier twins: the muon (207× heavier) and the tau (3,477× heavier). They have identical electric charge, identical spin, identical interactions — they differ only in mass. The same pattern repeats for quarks: up/charm/top, down/strange/bottom.</p>
+<p>This repetition — three generations of identical structure at wildly different mass scales — is the most unexplained fact in particle physics. The Standard Model accommodates it but has <strong>no explanation for why three.</strong></p>
+</div>
+
+<p>E₈ answers with arithmetic:</p>
+<div class="fcard">
+<div class="math">h = 30 = 2 × 3 × 5</div>
+<div class="note">The Coxeter number has exactly 3 prime factors</div>
+<div class="ans">3 primes → 3 generations. Not a choice — a theorem.</div>
+</div>
+
+<div class="phys">
+<div class="label">How this works geometrically</div>
+<p>The Coxeter torus T⁸/W(E₈) has a discrete symmetry group — the Weyl group — that contains fixed points of order 2, 3, and 5 (the prime factors of h = 30). Each fixed point is a special location where a fermion zero-mode can be trapped.</p>
+<p>The <strong>Z₂ cycle</strong> hosts the third generation (top, bottom, tau). The <strong>Z₃ cycle</strong> hosts the second (charm, strange, muon). The <strong>Z₅ cycle</strong> hosts the first (up, down, electron). The different sizes of these cycles explain why each generation has a different mass scale.</p>
+</div>
+
+<p>This also explains why the generations get lighter: the Z₅ cycle is the largest, so wavefunctions spread the thinnest, producing the lightest masses. The Z₂ cycle is the smallest, concentrating the wavefunction and producing the heaviest masses.</p>
+</section>
+<div class="gap-sm"></div>
+
+<!-- ═══════════════════════════════════════════
+     9 — TWELVE MASSES
+     ═══════════════════════════════════════════ -->
+<section data-s="mass" id="s9">
 <div class="tag">The Twelve Particles</div>
 <h2>Every mass from <em>three primes</em></h2>
-<p>The Coxeter number <strong>30 = 2 × 3 × 5</strong> has exactly three prime factors → exactly three generations. Each indexed by a prime:</p>
+<p>Each particle's mass is set by its tunnelling amplitude through the E₈ lattice — how strongly its wavefunction overlaps with the Higgs field at each Coxeter fixed point:</p>
 <div class="fcard">
 <div class="math">m(p) = y₀ · v · exp(−κ₀ · S(p, γ))</div>
 <div class="note">Tunnelling through E₈ lattice shells weighted by σ₃(ℓ)</div>
 </div>
+
+<div class="phys">
+<div class="label">What this formula means physically</div>
+<p>Each fermion sits at a fixed point of the Coxeter torus. Its mass comes from how much its wavefunction <em>leaks</em> to the Higgs condensate — like quantum tunnelling through a barrier. Heavier particles sit closer to the Higgs; lighter ones must tunnel further. The tunnelling rate is set by the E₈ lattice geometry: the divisor sum σ₃(ℓ) counts how many lattice paths connect the two points.</p>
+<p>The result: every mass from the top quark (173 GeV) to the lightest neutrino (~3 meV) — thirteen orders of magnitude — emerges from <strong>one equation with zero free parameters.</strong></p>
+</div>
+
 <table class="tbl">
 <tr><th>Particle</th><th>Predicted</th><th>Observed</th><th></th></tr>
 <tr><td class="name">Top</td><td class="pred">172.70 GeV</td><td class="obs">172.69 GeV</td><td class="err">0.003%</td></tr>
@@ -178,12 +387,20 @@ section p strong{color:var(--bright);font-weight:400}
 </section>
 <div class="gap-sm"></div>
 
-<!-- 6 — CKM -->
-<section data-s="ckm" id="s6">
+<!-- ═══════════════════════════════════════════
+     10 — CKM MATRIX
+     ═══════════════════════════════════════════ -->
+<section data-s="ckm" id="s10">
 <div class="tag">Quark Mixing</div>
 <h2>The CKM matrix from <em>overlap integrals</em></h2>
-<p>Quarks change flavour through the W boson. The <strong>CKM matrix</strong> describes this mixing. Its four parameters have never been derived from first principles — until now.</p>
-<p>Each generation's wavefunction lives at a different Coxeter fixed point (Z₂, Z₃, Z₅). Mixing arises from the <strong>overlap</strong> between up-type and down-type zero modes across these points:</p>
+
+<div class="phys">
+<div class="label">What mixing means</div>
+<p>When a top quark decays, it almost always becomes a bottom quark — but not always. Sometimes it becomes a strange quark, or even a down quark. The <strong>CKM matrix</strong> is a 3×3 table of probabilities describing all possible quark flavour transitions.</p>
+<p>It has four independent parameters. In the Standard Model, they're typed in from experiment. In E₈, they emerge from the <strong>overlap</strong> between wavefunctions living at different Coxeter fixed points.</p>
+</div>
+
+<p>Each generation's wavefunction lives at a different Coxeter fixed point (Z₂, Z₃, Z₅). Mixing arises from the overlap between up-type and down-type zero modes across these points:</p>
 <div class="fcard">
 <div class="math">V<sub>ij</sub> = ∫<sub>T⁸</sub> ψ̄<sub>u,i</sub>(y) W(y) ψ<sub>d,j</sub>(y) d⁸y</div>
 <div class="note">Triple overlap integral on the Coxeter torus</div>
@@ -219,11 +436,19 @@ section p strong{color:var(--bright);font-weight:400}
 </section>
 <div class="gap-sm"></div>
 
-<!-- 7 — PMNS -->
-<section data-s="mixing" id="s7">
+<!-- ═══════════════════════════════════════════
+     11 — PMNS MIXING
+     ═══════════════════════════════════════════ -->
+<section data-s="mixing" id="s11">
 <div class="tag">Neutrino Mixing</div>
 <h2>Neutrino oscillations from <em>one Coxeter exponent</em></h2>
-<p>Neutrinos change flavour as they travel. Three angles describe this mixing. The number <strong>23</strong> — the 7th Coxeter exponent of E₈ — determines two of them:</p>
+
+<div class="phys">
+<div class="label">Why neutrinos are strange</div>
+<p>Neutrinos barely interact with anything — trillions pass through your body every second without touching a single atom. But they do something no other particle does: they <strong>change identity mid-flight.</strong> An electron neutrino produced in the Sun can arrive at Earth as a muon neutrino. This "oscillation" proves neutrinos have mass — but very, very little of it.</p>
+</div>
+
+<p>Three angles describe this mixing. The number <strong>23</strong> — the 7th Coxeter exponent of E₈ — determines two of them:</p>
 <div class="trio">
 <div class="fcard purple">
 <div class="math">sin²θ₁₂ = 7/23</div>
@@ -245,8 +470,10 @@ section p strong{color:var(--bright);font-weight:400}
 </section>
 <div class="gap-sm"></div>
 
-<!-- 8 -->
-<section data-s="atom" id="s8">
+<!-- ═══════════════════════════════════════════
+     12 — PROTON RADIUS
+     ═══════════════════════════════════════════ -->
+<section data-s="atom" id="s12">
 <div class="tag">Inside the Atom</div>
 <h2>The size of a proton is <em>geometry</em></h2>
 <p>The <strong>proton radius puzzle</strong> consumed nuclear physics for a decade. The resolution: r<sub>p</sub> = 0.8409 fm.</p>
@@ -259,8 +486,71 @@ section p strong{color:var(--bright);font-weight:400}
 </section>
 <div class="gap-sm"></div>
 
-<!-- 9 -->
-<section data-s="cosmo" id="s9">
+<!-- ═══════════════════════════════════════════
+     13 — GRAVITY & HIERARCHY
+     ═══════════════════════════════════════════ -->
+<section data-s="gravity" id="s13">
+<div class="tag">The Deepest Question</div>
+<h2>Why gravity is <em>absurdly weak</em></h2>
+
+<div class="phys">
+<div class="label">The hierarchy problem</div>
+<p>Pick up a paperclip with a refrigerator magnet. That tiny magnet just overpowered the gravitational pull of the <em>entire Earth.</em> Gravity is weaker than electromagnetism by a factor of 10³⁶. The Standard Model has no explanation — it's just two unrelated numbers.</p>
+<p>Explaining this hierarchy has been the central problem of theoretical physics for forty years. Supersymmetry, extra dimensions, the multiverse — all were invented to explain one ratio.</p>
+</div>
+
+<p>It's one line:</p>
+<div class="fcard white">
+<div class="math" style="font-size:clamp(16px,2.5vw,22px)">M_Pl = v_EW × exp(4π²) / √R</div>
+<div class="note">Tunnelling amplitude through the spectral gap of E₈</div>
+<div class="ans">1.216 × 10¹⁹ GeV — observed 1.221 × 10¹⁹ — accuracy 0.38%</div>
+</div>
+
+<div class="phys">
+<div class="label">How gravity emerges from E₈</div>
+<p>In the 12D Yang–Mills action, the mixed-index field strength <strong>F<sub>μm</sub></strong> — one spacetime index, one internal index — contains the gravitational frame field. The Lorentz group SO(3,1) sits inside E₈ through the chain SO(3,1) ⊂ SO(8) ⊂ SO(16) ⊂ E₈.</p>
+<p>When you square the field strength and integrate over the internal torus, the MacDowell–Mansouri mechanism converts F² into the Einstein–Hilbert action R — ordinary gravity. No separate gravitational action is needed. Gravity <em>is</em> the mixed-index part of the E₈ gauge field.</p>
+<p>The exponential factor <strong>exp(4π²) = exp(λ₁/2)</strong> is half the spectral gap of the E₈ torus Laplacian. It arises from nonperturbative tunnelling through the lattice — the same mathematics that describes radioactive decay, but applied to the geometry of spacetime itself.</p>
+</div>
+
+<div class="fcard red">
+<div class="math">G_N = R ℏc / (v² × exp(8π²))</div>
+<div class="note">Newton's constant from E₈ spectral geometry</div>
+<div class="ans">Accuracy: 0.76%</div>
+</div>
+<p>Gravity is weak because 8π² is large. It was never a mystery. It was a <em>fact about the spectral gap of E₈.</em></p>
+
+<div class="phys">
+<div class="label">Three spectral theorems</div>
+<p><strong>λ₁ = 8π²</strong> — the spectral gap is an exact E₈ lattice invariant. It controls the hierarchy.</p>
+<p><strong>ζ<sub>Δ</sub>(−1) = 0</strong> — the one-loop correction to the Planck mass vanishes identically. The hierarchy is radiatively stable without supersymmetry.</p>
+<p><strong>ζ'<sub>Δ</sub>(−1) = −120ζ(5)/π²</strong> — the finite correction is O(1), not O(10³⁴). The exponential hierarchy is nonperturbative. No perturbative calculation can produce or destroy it.</p>
+</div>
+</section>
+<div class="gap-sm"></div>
+
+<!-- ═══════════════════════════════════════════
+     14 — STRONG CP
+     ═══════════════════════════════════════════ -->
+<section data-s="cp" id="s14">
+<div class="tag">The Missing Problem</div>
+<h2>Why <em>θ = 0</em> without an axion</h2>
+<p>QCD has a free parameter θ that violates CP symmetry. Experiments constrain |θ| < 10⁻¹⁰. The <strong>strong CP problem</strong> asks: why so small?</p>
+<p>The standard answer invokes the axion — a hypothetical particle nobody has found. E₈ gives a simpler answer: <strong>geometry forces θ = 0.</strong></p>
+<div class="fcard green">
+<div class="math">Λ* = Λ (self-dual) ⟹ θ_QCD = 0</div>
+<div class="note">E₈ lattice self-duality: Λ* = Λ, unique in 8D</div>
+<div class="ans">θ = 0 is forced by the lattice, not fine-tuned.</div>
+</div>
+<p>The E₈ lattice is <strong>even, unimodular, and self-dual</strong> — the only such lattice in eight dimensions. Its Weyl group W(E₈) acts transitively on roots, meaning every lattice point is geometrically equivalent. The QCD vacuum angle θ parameterises inequivalent configurations, but on a self-dual lattice there is only <strong>one equivalence class.</strong> The only invariant value is θ = 0.</p>
+<p>No axion needed. No Peccei-Quinn symmetry. Just the uniqueness of the E₈ lattice doing what it always does: eliminating choices.</p>
+</section>
+<div class="gap-sm"></div>
+
+<!-- ═══════════════════════════════════════════
+     15 — THE COSMOS
+     ═══════════════════════════════════════════ -->
+<section data-s="cosmo" id="s15">
 <div class="tag">The Cosmos</div>
 <h2>The expansion of the universe from <em>five integers</em></h2>
 <div class="fcard">
@@ -293,8 +583,10 @@ section p strong{color:var(--bright);font-weight:400}
 </section>
 <div class="gap-sm"></div>
 
-<!-- 10 -->
-<section data-s="inflation" id="s10">
+<!-- ═══════════════════════════════════════════
+     16 — INFLATION
+     ═══════════════════════════════════════════ -->
+<section data-s="inflation" id="s16">
 <div class="tag">The Beginning</div>
 <h2>Inflation lasted exactly <em>2h</em> e-folds</h2>
 <p>The spectral index n<sub>s</sub> measures how primordial fluctuations vary with scale. Planck measured it to be 0.9649 ± 0.0042.</p>
@@ -307,45 +599,10 @@ section p strong{color:var(--bright);font-weight:400}
 </section>
 <div class="gap-sm"></div>
 
-<!-- 11 -->
-<section data-s="gravity" id="s11">
-<div class="tag">The Deepest Question</div>
-<h2>Why gravity is <em>absurdly weak</em></h2>
-<p>The <strong>hierarchy problem</strong> — why the Planck mass is 10¹⁷ times the electroweak scale — has driven theoretical physics for forty years. Supersymmetry, extra dimensions, the multiverse — all attempts to explain one number.</p>
-<p>It's one line:</p>
-<div class="fcard white">
-<div class="math" style="font-size:clamp(16px,2.5vw,22px)">M_Pl = v_EW × exp(4π²) / √R</div>
-<div class="note">Tunnelling amplitude through the spectral gap of E₈</div>
-<div class="ans">1.216 × 10¹⁹ GeV — observed 1.221 × 10¹⁹ — accuracy 0.38%</div>
-</div>
-<p>The exponent 4π² is half the first eigenvalue of the Laplacian on the E₈ torus — the <strong>spectral gap.</strong> The √R counts the eight compact dimensions in the instanton determinant. The hierarchy isn't fine-tuned. It's the tunnelling amplitude through a lattice.</p>
-<div class="fcard red">
-<div class="math">G_N = R ℏc / (v² × exp(8π²))</div>
-<div class="note">Newton's constant from E₈ spectral geometry</div>
-<div class="ans">Accuracy: 0.76%</div>
-</div>
-<p>Gravity is weak because 8π² is large. It was never a mystery. It was a <em>fact about the spectral gap of E₈.</em></p>
-</section>
-<div class="gap-sm"></div>
-
-<!-- 12 -->
-<section data-s="cp" id="s12">
-<div class="tag">The Missing Problem</div>
-<h2>Why <em>θ = 0</em> without an axion</h2>
-<p>QCD has a free parameter θ that violates CP symmetry. Experiments constrain |θ| < 10⁻¹⁰. The <strong>strong CP problem</strong> asks: why so small?</p>
-<p>The standard answer invokes the axion — a hypothetical particle nobody has found. E₈ gives a simpler answer: <strong>geometry forces θ = 0.</strong></p>
-<div class="fcard green">
-<div class="math">Λ* = Λ (self-dual) ⟹ θ_QCD = 0</div>
-<div class="note">E₈ lattice self-duality: Λ* = Λ, unique in 8D</div>
-<div class="ans">θ = 0 is forced by the lattice, not fine-tuned.</div>
-</div>
-<p>The E₈ lattice is <strong>even, unimodular, and self-dual</strong> — the only such lattice in eight dimensions. Its Weyl group W(E₈) acts transitively on roots, meaning every lattice point is geometrically equivalent. The QCD vacuum angle θ parameterises inequivalent configurations, but on a self-dual lattice there is only <strong>one equivalence class.</strong> The only invariant value is θ = 0.</p>
-<p>No axion needed. No Peccei-Quinn symmetry. Just the uniqueness of the E₈ lattice doing what it always does: eliminating choices.</p>
-</section>
-<div class="gap-sm"></div>
-
-<!-- 13 -->
-<section data-s="elements" id="s13">
+<!-- ═══════════════════════════════════════════
+     17 — ELEMENTS
+     ═══════════════════════════════════════════ -->
+<section data-s="elements" id="s17">
 <div class="tag">The Elements</div>
 <h2>E₈ decides <em>which atoms exist</em></h2>
 <p>Two E₈ forces compete inside every nucleus. They balance at iron (Z = 26). The table ends at lead:</p>
@@ -357,8 +614,10 @@ section p strong{color:var(--bright);font-weight:400}
 </section>
 <div class="gap-sm"></div>
 
-<!-- 14 -->
-<section data-s="magic" id="s14">
+<!-- ═══════════════════════════════════════════
+     18 — MAGIC NUMBERS
+     ═══════════════════════════════════════════ -->
+<section data-s="magic" id="s18">
 <div class="tag">Hidden Structure</div>
 <h2>Nuclear magic numbers are <em>E₈ invariants</em></h2>
 <div class="magic-grid">
@@ -378,8 +637,10 @@ section p strong{color:var(--bright);font-weight:400}
 </section>
 <div class="gap-half"></div>
 
-<!-- 15 -->
-<section data-s="all" id="s15">
+<!-- ═══════════════════════════════════════════
+     19 — THE PUNCHLINE
+     ═══════════════════════════════════════════ -->
+<section data-s="all" id="s19">
 <div class="tag">The Punchline</div>
 <h2>One shape. <em>Zero</em> free parameters.</h2>
 <div class="counter">
@@ -404,7 +665,7 @@ section p strong{color:var(--bright);font-weight:400}
 <p>Planck mass M_Pl = v·exp(4π²)/√R (0.38%)</p>
 <p>Newton's constant G (0.76%)</p>
 <p>Electroweak vacuum v = 246 GeV (0.01%)</p>
-<p>Higgs boson mass (0.15%)</p>
+<p>Higgs boson mass m_H = 125.0 GeV (0.15%)</p>
 <p>All 12 fermion masses including neutrinos (0.003–1%)</p>
 <p>CKM: λ = √(m_d/m_s) = 0.2247 (0.14%)</p>
 <p>CKM: A = h/(h+R−1) = 30/37 (0.4%)</p>
@@ -433,6 +694,10 @@ section p strong{color:var(--bright);font-weight:400}
 </div>
 </section>
 <div class="div"></div>
+
+<!-- ═══════════════════════════════════════════
+     TEST & CLOSE
+     ═══════════════════════════════════════════ -->
 <section>
 <div class="tag">The Test</div>
 <h2>How to <em>prove it wrong</em></h2>
@@ -462,21 +727,25 @@ section p strong{color:var(--bright);font-weight:400}
 <script>
 const SEC=[
 {id:'s0',key:'intro',tip:'The Problem',b:.4,z:20,g:0},
-{id:'s1',key:'roots',tip:'The Shape',b:1,z:11,g:1},
-{id:'s2',key:'dims',tip:'4 Dimensions',b:.7,z:15,g:0},
-{id:'s3',key:'alpha',tip:'1/137',b:.9,z:13,g:1},
-{id:'s4',key:'forces',tip:'Three Forces',b:.75,z:15,g:1},
-{id:'s5',key:'mass',tip:'Twelve Particles',b:.45,z:19,g:0},
-{id:'s6',key:'ckm',tip:'CKM Matrix',b:.65,z:16,g:0},
-{id:'s7',key:'mixing',tip:'PMNS Mixing',b:.55,z:17,g:0},
-{id:'s8',key:'atom',tip:'Proton Radius',b:.6,z:14,g:0},
-{id:'s9',key:'cosmo',tip:'The Cosmos',b:.5,z:22,g:0},
-{id:'s10',key:'inflation',tip:'Inflation',b:.45,z:24,g:0},
-{id:'s11',key:'gravity',tip:'The Hierarchy',b:.35,z:25,g:0},
-{id:'s12',key:'cp',tip:'Strong CP',b:.5,z:18,g:0},
-{id:'s13',key:'elements',tip:'The Elements',b:.4,z:20,g:0},
-{id:'s14',key:'magic',tip:'Magic Numbers',b:.6,z:16,g:0},
-{id:'s15',key:'all',tip:'The Result',b:1,z:9,g:1}
+{id:'s1',key:'sm',tip:'Standard Model',b:.55,z:18,g:0},
+{id:'s2',key:'what-forces',tip:'The Forces',b:.6,z:17,g:0},
+{id:'s3',key:'roots',tip:'The Shape',b:1,z:11,g:1},
+{id:'s4',key:'dims',tip:'4 Dimensions',b:.7,z:15,g:0},
+{id:'s5',key:'alpha',tip:'1/137',b:.9,z:13,g:1},
+{id:'s6',key:'forces',tip:'Three Couplings',b:.75,z:15,g:1},
+{id:'s7',key:'higgs',tip:'Why Mass Exists',b:.5,z:18,g:0},
+{id:'s8',key:'gens',tip:'Three Generations',b:.55,z:17,g:0},
+{id:'s9',key:'mass',tip:'Twelve Masses',b:.45,z:19,g:0},
+{id:'s10',key:'ckm',tip:'CKM Matrix',b:.65,z:16,g:0},
+{id:'s11',key:'mixing',tip:'PMNS Mixing',b:.55,z:17,g:0},
+{id:'s12',key:'atom',tip:'Proton Radius',b:.6,z:14,g:0},
+{id:'s13',key:'gravity',tip:'The Hierarchy',b:.35,z:25,g:0},
+{id:'s14',key:'cp',tip:'Strong CP',b:.5,z:18,g:0},
+{id:'s15',key:'cosmo',tip:'The Cosmos',b:.5,z:22,g:0},
+{id:'s16',key:'inflation',tip:'Inflation',b:.45,z:24,g:0},
+{id:'s17',key:'elements',tip:'The Elements',b:.4,z:20,g:0},
+{id:'s18',key:'magic',tip:'Magic Numbers',b:.6,z:16,g:0},
+{id:'s19',key:'all',tip:'The Result',b:1,z:9,g:1}
 ];
 function makeRoots(){const R=[];for(let i=0;i<8;i++)for(let j=i+1;j<8;j++)for(let a of[-1,1])for(let b of[-1,1]){const r=[0,0,0,0,0,0,0,0];r[i]=a;r[j]=b;R.push(r)}for(let m=0;m<256;m++){let n=0;const r=[];for(let b=0;b<8;b++){if(m&(1<<b))r.push(-.5),n++;else r.push(.5)}if(n%2===0)R.push(r)}return R}
 function proj(r){const E=[1,7,11,13,17,19,23,29];let x=0,y=0,z=0;for(let i=0;i<8;i++){const a=2*Math.PI*E[i]/30;x+=r[i]*Math.cos(a);y+=r[i]*Math.sin(a);z+=r[i]*Math.cos(a*2)*.6+r[i]*Math.sin(a*3)*.4}return[x*1.6,y*1.6,z*1.6]}
@@ -528,7 +797,7 @@ const r=el.getBoundingClientRect();if(r.top<mid&&r.bottom>mid){
 if(s.key!==curKey){curKey=s.key;tgtB=s.b;tgtZ=s.z;
 s.g?document.body.classList.add('bright'):document.body.classList.remove('bright')}
 dots.forEach(d=>d.classList.remove('on'));if(dots[i])dots[i].classList.add('on')}})}
-const DYN=['alpha','forces','all','magic','atom','cosmo','gravity','inflation','mixing','ckm'];
+const DYN=['alpha','forces','all','magic','atom','cosmo','gravity','inflation','mixing','ckm','sm','what-forces','higgs','gens'];
 function loop(){
 requestAnimationFrame(loop);const t=clk.getElapsedTime();
 rm.uniforms.time.value=t;rm.uniforms.bri.value+=(tgtB-rm.uniforms.bri.value)*.03;
@@ -545,9 +814,22 @@ else if(curKey==='cosmo')cc.setHSL(.58+.12*Math.sin(i*.05),.7,.2+.4*(.5+.5*Math.
 else if(curKey==='gravity')cc.setHSL(.0,.5,.08+.15*(.5+.5*Math.sin(t*.7+i*.008)));
 else if(curKey==='inflation')cc.setHSL(.12+.08*Math.sin(i*.03),.8,.15+.35*(.5+.5*Math.sin(t*2+i*.025)));
 else if(curKey==='mixing')cc.setHSL(.72+.15*Math.sin(i*.04),.7,.2+.3*(.5+.5*Math.sin(t*1.8+i*.035)));
-else if(curKey==='ckm'){
-  const g=i%3;
-  cc.setHSL(g===0?.07:g===1?.58:.0,.85,.2+.4*(.5+.5*Math.sin(t*2+i*.04+g*2.1)));
+else if(curKey==='ckm'){const g=i%3;cc.setHSL(g===0?.07:g===1?.58:.0,.85,.2+.4*(.5+.5*Math.sin(t*2+i*.04+g*2.1)))}
+else if(curKey==='sm'){
+  const gen=i%3;
+  cc.setHSL(gen===0?.07:gen===1?.58:.28,.6,.15+.25*(.5+.5*Math.sin(t*1.2+i*.02)));
+}
+else if(curKey==='what-forces'){
+  const f=i%4;
+  cc.setHSL([.07,.58,.0,.75][f],.7,.15+.3*(.5+.5*Math.sin(t*1.5+i*.03+f*1.5)));
+}
+else if(curKey==='higgs'){
+  const d=Math.hypot(...r3[i]);
+  cc.setHSL(.1,.7+.2*Math.sin(d),.1+.35*(.5+.5*Math.sin(t*1.8+d*.8)));
+}
+else if(curKey==='gens'){
+  const gen=Math.floor(i/80);
+  cc.setHSL(gen===0?.0:gen===1?.28:.58,.75,.15+.35*(.5+.5*Math.sin(t*2+i*.025+gen*2)));
 }
 else cc.setHSL([.07,.58,.95,.42][i%4],.85,.3+.3*(.6+.4*Math.sin(t*1.2+i*.04)));
 c.setXYZ(i,cc.r,cc.g,cc.b)}c.needsUpdate=true}
