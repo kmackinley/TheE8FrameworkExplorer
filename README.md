@@ -189,7 +189,7 @@ If any of these fail, the theory is wrong. That's how science works.
 
 ## Interactive Explorer
 
-Open **[index.html](index.html)** in a browser for a scroll-driven 3D visualisation of the E₈ root system and an explanation of the theory for a general audience.
+Open **[The E8 Framework Explorer](https://kmackinley.github.io/TheE8FrameworkExplorer/)** in a browser for a scroll-driven 3D visualisation of the E₈ root system and an explanation of the theory for a general audience.
 
 ---
 
